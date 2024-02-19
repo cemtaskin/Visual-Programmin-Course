@@ -1,39 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimpleCalculator
 {
     public partial class Form1 : Form
     {
-        int firstNumber;
-        int secondNumber; 
+       
+        public int FirstNumber { get {
+                int r = 0;
+
+                try
+                {
+                    r = Convert.ToInt32(txtFirstNumber.Text);
+                }
+                catch { }
+
+                return r;
+            } 
+        }
+
+        public int SecondNumber
+        {
+            get
+            {
+                int r = 0;
+
+                try
+                {
+                    r = Convert.ToInt32(txtSecondNumber.Text);
+                }
+                catch { }
+
+                return r;
+            }
+        }
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnOperation (object sender,EventArgs e)
         {
-            try {
-                firstNumber = Convert.ToInt32(txtFirstNumber.Text);
-            } catch { }
-
-            try
+            int result = 0;
+            Button button = (Button)sender;
+            switch (Convert.ToInt32(button.Tag))
             {
-                secondNumber = Convert.ToInt32(txtSecondNumber.Text);
+                case 1:
+                    result = FirstNumber + SecondNumber;
+                    break;
+                case 2:
+                    result = FirstNumber - SecondNumber;
+                    break;
+                case 3:
+                    result = FirstNumber * SecondNumber;
+                    break;
+                case 4:
+                    result = FirstNumber / SecondNumber;
+                    break;
             }
-            catch { }
-
-
-            lblResult.Text = (firstNumber + secondNumber).ToString();
+            lblResult.Text = result.ToString();
         }
     }
 }

@@ -126,9 +126,10 @@ namespace SimpleCalculator
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(60, 23);
             this.btnAdd.TabIndex = 0;
+            this.btnAdd.Tag = "1";
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.btnAdd.Click += new System.EventHandler(this.btnOperation);
             // 
             // btnSubstract
             // 
@@ -136,8 +137,10 @@ namespace SimpleCalculator
             this.btnSubstract.Name = "btnSubstract";
             this.btnSubstract.Size = new System.Drawing.Size(60, 23);
             this.btnSubstract.TabIndex = 1;
+            this.btnSubstract.Tag = "2";
             this.btnSubstract.Text = "Substract";
             this.btnSubstract.UseVisualStyleBackColor = true;
+            this.btnSubstract.Click += new System.EventHandler(this.btnOperation);
             // 
             // btnMultiply
             // 
@@ -145,8 +148,10 @@ namespace SimpleCalculator
             this.btnMultiply.Name = "btnMultiply";
             this.btnMultiply.Size = new System.Drawing.Size(60, 23);
             this.btnMultiply.TabIndex = 2;
+            this.btnMultiply.Tag = "3";
             this.btnMultiply.Text = "Multiply";
             this.btnMultiply.UseVisualStyleBackColor = true;
+            this.btnMultiply.Click += new System.EventHandler(this.btnOperation);
             // 
             // btnDivide
             // 
@@ -154,8 +159,10 @@ namespace SimpleCalculator
             this.btnDivide.Name = "btnDivide";
             this.btnDivide.Size = new System.Drawing.Size(60, 23);
             this.btnDivide.TabIndex = 3;
+            this.btnDivide.Tag = "4";
             this.btnDivide.Text = "Divide";
             this.btnDivide.UseVisualStyleBackColor = true;
+            this.btnDivide.Click += new System.EventHandler(this.btnOperation);
             // 
             // Form1
             // 
