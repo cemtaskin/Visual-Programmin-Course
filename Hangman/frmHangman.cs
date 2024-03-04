@@ -1,4 +1,5 @@
-﻿using Hangman.Properties;
+﻿using Hangman.Models;
+using Hangman.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,13 +16,47 @@ namespace Hangman
     public partial class frmHangman : Form
     {
         public List<String> UsedLetters { get; set; }
-        String chars = "ABCDEFGHIJKLMNOPRSTQWXYZ";
-        
+        String chars = "ABCDEFGHIJKLMNOPRSTQUVWXYZ";
+        List<String> words;
+        String selectedWord;
+        String secretWord;
+        int retryCount = 6;
 
         public frmHangman()
         {
             InitializeComponent();
             UsedLetters = new List<string>();
+            words = HangmanWord.getWords();
+            startNewGame();
+        }
+
+        private void startNewGame()
+        {
+            retryCount = 6;
+            UsedLetters.Clear();
+            lblKey.Text = "";
+            int randomNumber = new Random().Next(0, words.Count);
+            selectedWord = words[randomNumber].ToUpper();
+            secretWord = "";
+            Text = selectedWord;
+            for (int i = 0; i < selectedWord.Length; i++)
+            {
+                if (i == 0)
+                {
+                    secretWord +="_ ";
+                }
+                else if (i==selectedWord.Length-1){
+                    secretWord += " _";
+                }
+                else
+                {
+                    secretWord+= " _ ";
+                }
+                
+            }
+            lblDescription.Text = secretWord;
+            addLetters();
+           
         }
 
         private void frmHangman_KeyPress(object sender, KeyPressEventArgs e)
@@ -40,15 +75,66 @@ namespace Hangman
             {
                 lblKey.Text = letter; 
                 UsedLetters.Add(letter);
+
+                examineChar(letter);
+                
                 ResourceManager rm = Resources.ResourceManager; 
                 if (UsedLetters.Count != 0)
                 {
-                    Bitmap hangmanPicture = (Bitmap)rm.GetObject("_" + (UsedLetters.Count+1).ToString("000"));
-                    imgHangman.Image = hangmanPicture;
-                }
                     
+                    Bitmap hangmanPicture = (Bitmap)rm.GetObject("_" + (7-retryCount).ToString("000"));
+                    imgHangman.Image = hangmanPicture;
+
+                    if (retryCount < 0)
+                    {
+                        MessageBox.Show("You lost");
+                        
+                        startNewGame();
+                        return;
+                    }
+                }
+                   
                 addLetters();
             }
+        }
+
+        
+
+        private void examineChar(String letter)
+        {
+            if (!selectedWord.Contains(letter[0]))
+            {
+                retryCount--;
+            }
+
+            secretWord = "";
+            for (int i = 0; i < selectedWord.Length; i++)
+            {
+                if (UsedLetters.Contains(selectedWord[i].ToString()))
+                {
+                    secretWord += String.Format(" {0} ", selectedWord[i].ToString());
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        secretWord += "_ ";
+                    }
+                    else if (i==selectedWord.Length-1)
+                    {
+                        secretWord += " _";
+                    }
+                    else
+                    {
+                        secretWord += " _ ";
+                    }
+                    
+                }
+                
+            }
+
+            lblDescription.Text = secretWord;
+
         }
 
         private void addLetters()
@@ -69,7 +155,7 @@ namespace Hangman
                 button.Left = (x) * 50 + 10 ;
                 x++;
 
-                if (i == 11)
+                if (i == 12)
                 {
                     y = 80;
                     x = 0;
